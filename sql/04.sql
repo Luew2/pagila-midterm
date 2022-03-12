@@ -15,3 +15,20 @@
  * NOTE:
  * You do not have to include movies with similarity score 0 in your results (but you may if you like).
  */
+
+
+WITH circus_customers AS (
+    SELECT DISTINCT customer.customer_id FROM film
+    JOIN inventory USING (film_id)
+    JOIN rental USING (inventory_id)
+    JOIN customer USING (customer_id)
+    WHERE film.title = 'AMERICAN CIRCUS'),
+other_movies AS (
+    SELECT DISTINCT film.title, circus_customers.customer_id FROM film
+    JOIN inventory USING (film_id)
+    JOIN rental USING (inventory_id)
+    JOIN circus_customers USING (customer_id))
+SELECT DISTINCT title, count(customer_id) AS score FROM other_movies 
+WHERE (title != 'AMERICAN CIRCUS') --Why would we want the movie we have seen?
+GROUP BY title
+ORDER BY score desc;

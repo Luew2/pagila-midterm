@@ -1,7 +1,7 @@
 -- PART 1:
 -- Rewrite the SQL table below to use a maximally efficient column order.
 -- You may directly modify this table.
-
+/*
 CREATE TABLE project (
     id SERIAL PRIMARY KEY,
     author_id BIGINT NOT NULL,
@@ -16,7 +16,37 @@ CREATE TABLE project (
     created_at TIMESTAMP WITH TIME ZONE,
     updated_at TIMESTAMPTZ
 );
+*/
 
+CREATE TABLE project (
+    title CHAR(256),
+
+
+    -- len = 16
+    developer_id UUID,
+
+
+    -- len = 8
+    author_id BIGINT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE,
+    updated_at TIMESTAMPTZ
+
+
+    -- length = 4
+    id SERIAL PRIMARY KEY,
+    target_id INTEGER,
+    project_id INTEGER NOT NULL UNIQUE,
+ 
+ 
+    -- length = 2
+    action SMALLINT NOT NULL,
+  
+  
+    -- length = -1
+    target_type VARCHAR(2),
+    developer_addr INET,
+    data TEXT,
+);
 -- PART 2:
 -- Complete the table below describing the number of bytes used by the row created by the following insert statement.
 -- Use the original column order defined above,
@@ -37,7 +67,7 @@ INSERT INTO project VALUES (
     '2022-03-09T18:34:27+00:00'
 );
 
--- Header:
--- Data:
--- Padding:
--- Total:
+-- Header: 32 BYTES
+-- Data: 4 + 8 + 16 + 4 + 2 + 8 + 8 = 50 BYTES
+-- Padding: 4 + 2 = 6 BYTES
+-- Total: 32 + 50 + 6 = 88 BYTES

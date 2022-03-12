@@ -7,10 +7,11 @@
  */
 
 
-SELECT count(distinct customer.customer_id) from customer
+SELECT count(DISTINCT customer.customer_id) FROM customer
 JOIN rental USING (customer_id)
 JOIN inventory USING (inventory_id)
 JOIN film USING (film_id)
 JOIN film_actor USING (film_id)
 JOIN actor USING (actor_id)
-WHERE actor.first_name = 'RUSSEL' AND actor.last_name = 'BACALL'; --This should grab all the distinct customers who rented movies with RUSSEL BACALL in them.
+WHERE actor.first_name = 'RUSSELL'
+AND actor.last_name = 'BACALL'; --This should grab all the distinct customers who rented movies with RUSSELL BACALL in them.
